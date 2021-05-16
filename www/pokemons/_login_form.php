@@ -7,10 +7,19 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="p-5">
+                                <?php
+                                    if (isset($_GET['error'])) {
+                                        echo "<div class='col-lg-12'>";
+                                        echo "<div class='alert alert-danger' role='alert'>";
+                                        echo "Datos de ingreso incorrectos.";
+                                        echo "</div>";
+                                        echo "</div>";
+                                    }
+                                ?>
                                 <form class="user" action="ingresar.php" method="post">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <input type="text" class="form-control form-control-user" name="nombre"
+                                            <input type="text" class="form-control form-control-user" name="usuario"
                                                    placeholder="Nombre de usuario">
                                         </div>
                                         <div class="form-group col-md-6">

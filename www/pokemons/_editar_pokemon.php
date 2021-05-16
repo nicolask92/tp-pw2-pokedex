@@ -8,45 +8,60 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <?php
-                                    if (isset($_GET["error"])) {
-                                        echo "<div class='col-lg-12'>";
-                                        echo "<div class='alert alert-danger' role='alert'>";
-                                        if ($_GET["error"] == "identificadorRepetido") {
-                                            echo "Identificador ya existe";
-                                        } else {
-                                            echo "Faltaron cargar datos";
-                                        }
-                                        echo "</div>";
-                                        echo "</div>";
-                                    }
+                                require_once ('conexionBD.php');
+                                require_once ('helperDeLogeo.php');
 
-                                    if (isset($_GET["ok"])) {
-                                        echo "<div class='col-lg-12'>";
-                                        echo "<div class='alert alert-primary' role='alert'>";
-                                        echo "Se cargo correctamente el pokemon!";
-                                        echo "</div>";
-                                        echo "</div>";
+                                $identificador = $_GET['idManual'];
+
+                                $stmt = $conn->prepare("SELECT * FROM pokemons WHERE id_manual = ?");
+                                $stmt->bind_param("i", $identificador);
+                                $stmt->execute();
+                                $resultados = $stmt->get_result();
+
+                                if (isset($_GET["error"])) {
+                                    echo "<div class='col-lg-12'>";
+                                    echo "<div class='alert alert-danger' role='alert'>";
+                                    if ($_GET["error"] == "errorEditando") {
+                                        echo "Faltan cargar algun dato.";
+                                    } else if($_GET["error"] == "identificadorEnUso"){
+                                        echo "Edicion de pokemon con ese id esta en uso.";
                                     }
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
+
+                                if (isset($_GET["ok"])) {
+                                    echo "<div class='col-lg-12'>";
+                                    echo "<div class='alert alert-primary' role='alert'>";
+                                    echo "Se edito correctamente el pokemon!";
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
                                 ?>
-                                <form class="user" action="cargarPokemon.php" method="post" enctype="multipart/form-data">
+
+                                <?php
+                                    while($fila = $resultados->fetch_assoc()) {
+                                ?>
+                                <form class="user" action="doEditar.php" method="post" enctype="multipart/form-data">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <input type="number" name="identificador" class="form-control form-control-user"
+                                            <input name="identificador" value="<?php echo $fila['id_manual'] ?>" hidden>
+                                            <input type="number" name="identificador_nuevo" value="<?php echo $fila['id_manual'] ?>" class="form-control form-control-user"
                                                    placeholder="Nro identificador">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <input type="text" name="nombre" class="form-control form-control-user"
+                                            <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" class="form-control form-control-user"
                                                    placeholder="Nombre">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <input type="text" name="descripcion" class="form-control form-control-user"
+                                            <input type="text" name="descripcion" value="<?php echo $fila['descripcion'] ?>" class="form-control form-control-user"
                                                    placeholder="Descripcion">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <select style="height: auto; padding: 14px" name="tipo" class="form-control form-control-user">
-                                                <option selected disabled>Seleccione Tipo</option>
+                                                <option selected value="<?php echo getTipoSegunUrl($fila['tipo']); ?>">Actualmente es <?php echo getTipoSegunUrl($fila['tipo']); ?></option>
                                                 <option value="fuego">Fuego</option>
                                                 <option value="tierra">Tierra</option>
                                                 <option value="agua">Agua</option>
@@ -64,10 +79,13 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <button type="submit" class="btn btn-primary mb-2">Cargar</button>
+                                            <button type="submit" class="btn btn-primary mb-2">Editar</button>
                                         </div>
                                     </div>
                                 </form>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>

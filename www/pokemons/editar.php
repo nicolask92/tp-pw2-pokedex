@@ -1,10 +1,10 @@
 <?php require_once ('_session.php'); ?>
 <!doctype html>
 <html lang="es">
-    <head>
-        <?php require_once ('_header.php'); ?>
-        <title>Entrar- Trabajo Practico - Programacion Web 2</title>
-    </head>
+<head>
+    <?php require_once ('_header.php'); ?>
+    <title>Ingresar Pokemnon - Trabajo Practico - Programacion Web 2</title>
+</head>
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -15,7 +15,7 @@
         <div id="content">
             <?php include_once ('_top_bar.php'); ?>
             <!-- Begin Page Content -->
-            <?php include_once ('_login_form.php') ?>
+            <?php include_once ('_editar_pokemon.php') ?>
             <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
@@ -28,7 +28,6 @@
 <?php
 require_once ('_modal_salir.php');
 require_once ('_scripts.php');
-print_r($_SESSION);
 ?>
 </body>
 </html>

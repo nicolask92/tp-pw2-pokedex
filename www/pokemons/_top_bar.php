@@ -7,13 +7,13 @@
     </button>
 
     <!-- Topbar Search -->
-    <form
+    <form action="buscarPokemon.php" method="post"
         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Queres buscar un pokemon?"
+            <input type="text" name="busqueda" class="form-control bg-light border-0 small" placeholder="Queres buscar un pokemon?"
                    aria-label="Search" aria-describedby="basic-addon2">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search fa-sm"></i>
                 </button>
             </div>
@@ -47,6 +47,10 @@
             </div>
         </li>
 
+        <?php
+            if (isset($_SESSION['logueado'])) {
+        ?>
+
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->
@@ -64,6 +68,18 @@
                 </a>
             </div>
         </li>
+         <?php
+            } else {
+        ?>
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="./login.php" role="button"
+               aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ingresar</span>
+            </a>
+        </li>
+        <?php
+            }
+         ?>
 
     </ul>
 
