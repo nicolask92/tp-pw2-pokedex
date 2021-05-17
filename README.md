@@ -6,3 +6,6 @@ Seguramente van a tener que cambiar la variable del path en el archivo de sessio
 
 user: admin
 pass: admin123
+
+si se respeta la siguiente url no deberia haber problemas:
+http://localhost/tp-pw2-pokedex/www/pokemons/
